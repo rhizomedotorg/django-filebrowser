@@ -13,6 +13,11 @@
 {% block javascripts %}
     {{ block.super }}
     <script type="text/javascript" src="../../jsi18n/"></script>
+    <script>
+      window.MEDIA_URL = '{{MEDIA_URL}}'
+    </script>
+    <script language="javascript" type="text/javascript" src="{% static "grappelli/tinymce/jscripts/tiny_mce/tiny_mce_popup.js" %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCE.js" %}"></script>
     <script type="text/javascript" src="{% static "filebrowser/js/fileuploader.js" %}"></script>
     <script type="text/javascript">
     (function($){
@@ -90,6 +95,11 @@
                 onComplete: function(id, fileName, resp){
                     if (resp.success) {
                         this.getItem(id).find('.qq-upload-file').html(resp.filename);
+                        var win = tinyMCEPopup.getWindowArg("window");
+                        win.document.getElementById(tinyMCEPopup.getWindowArg("input")).value = window.MEDIA_URL + 'uploads/' + fileName;
+
+                        tinyMCEPopup.close();
+
                     }
                 },
                 showMessage: function(message){ alert(message); }
